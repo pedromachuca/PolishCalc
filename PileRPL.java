@@ -110,17 +110,17 @@ public class PileRPL{
 		String value = "";
 		//Construction of the graphical
 		//stack with a string
-		value +=" +----+\n";
+		value +="\n +-------+\n";
 		//Add the current value of the objects
 		//on the stack in the string
 		for (int i=size-1; i>=0; i--){
 			if(pile[i]!=null){
-				value += i+"! "+pile[i]+"  !\n";
-				value +=" +----+\n";
+				value += i+"!"+String.format("%7d", pile[i].getValue())+"!\n";
+				value +=" +-------+\n";
 	 		}	
 			else{
-				 value += i+"!    !\n";
-				value +=" +----+\n";
+				 value += i+"!       !\n";
+				value +=" +-------+\n";
 			}
 		}
 		//return the concatenated string to

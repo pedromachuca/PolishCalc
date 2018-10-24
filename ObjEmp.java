@@ -15,7 +15,7 @@ public class ObjEmp{
 		return ""+value;
 	}
 	//Method that returns the value of the object
-	private int getValue(){
+	public int getValue(){
 		return value;
 	}
 	//Method to addition two objects
