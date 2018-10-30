@@ -4,20 +4,30 @@ import java.net.*;
 //Where object PileRPL and ObjEmp are created
 //and where the differents methods of the objects
 //are called.
+
+
+
 public class CalcRPL{
+
+
 	public static void main(String [] args){
 		new CalcRPL(args);	
 	}
+
+
 	//Initialisation des attributs de la classe
 	BufferedReader input=null;
 	PrintWriter output=null;	
 	FileWriter writer=null;
+
 	ServerSocket server;
 	Socket socket=null;
 	//Initialisation of an object PileRPL
 	PileRPL pile=null;
 	//The default stack size will be 10
 	int stackLength = 10;
+
+
 	public CalcRPL(String [] args){
 		//If no args then instanciation of PileRPL with the default size
 		if(args.length==0){
@@ -57,43 +67,43 @@ public class CalcRPL{
 	}
 	String [] menu(PrintWriter output, BufferedReader input){
 		//Starting the calculator and prompt user information on the program.
-		display(output, "*************************************************************");
-		display(output, "*                                                           *");
-		display(output, "*    ************************************                   *");
-		display(output, "*    *                                  *                   *");
-		display(output, "*    * Welcome to the polish calculator *                   *");
-		display(output, "*    *                                  *                   *");
-		display(output, "*    ************************************                   *");
-		display(output, "*    How to :                                               *");
-		display(output, "*    Enter a value to push on the stack, press ENTER        *");
-		display(output, "*    Enter another value to push on the stack, press ENTER  *");
-		display(output, "*    Enter the operand you wish to apply, press ENTER       *");
-		display(output, "*    The following commands are also available :            *");
-		display(output, "*    drop, swap, clear, pop and push number (ex: push 2)    *");
-		display(output, "*    You can leave by entering q at anytime                 *");
-		display(output, "*                                                           *");
-		display(output, "*    Different mode are available :                         *");
-		display(output, "*    1 - Mode local                                         *");
-		display(output, "*        Use the calculator locally                         *");
-		display(output, "*    2 - Online mode (use the calculator                    *");
-		display(output, "*        Use the calculator from a remote location          *");
-		display(output, "*        Launch the program as usual (server side)          *");
-		display(output, "*        Connect from a remote location (telnet, netcat...) *");
-		display(output, "*        Example : telnet IP PORT                           *");
-		display(output, "*    3 - Online mode that logs the current session          *");
-		display(output, "*                                                           *");
-		display(output, "* To launch the program directly nex time enter the         *");
-		display(output, "* Following command : java CalcRPL option1 option2          *");
-		display(output, "*                                                           *");
-		display(output, "*    option 1:          option 2:                           *");
-		display(output, "*    1- Local           1-Session without log               *");
-		display(output, "*    2- Remote          2-Session with log                  *");
-		display(output, "*                       3-Replay the log                    *");
-		display(output, "* If you see this menu it means you did not enter the       *");
-		display(output, "* correct number of argument.                               *");
-		display(output, "*                                                           *");
-		display(output, "* Please enter: option1 option2                             *");
-		display(output, "*************************************************************");
+		display(output, "*************************************************************\n");
+		display(output, "*                                                           *\n");
+		display(output, "*    ************************************                   *\n");
+		display(output, "*    *                                  *                   *\n");
+		display(output, "*    * Welcome to the polish calculator *                   *\n");
+		display(output, "*    *                                  *                   *\n");
+		display(output, "*    ************************************                   *\n");
+		display(output, "*    How to :                                               *\n");
+		display(output, "*    Enter a value to push on the stack, press ENTER        *\n");
+		display(output, "*    Enter another value to push on the stack, press ENTER  *\n");
+		display(output, "*    Enter the operand you wish to apply, press ENTER       *\n");
+		display(output, "*    The following commands are also available :            *\n");
+		display(output, "*    drop, swap, clear, pop and push number (ex: push 2)    *\n");
+		display(output, "*    You can leave by entering q at anytime                 *\n");
+		display(output, "*                                                           *\n");
+		display(output, "*    Different mode are available :                         *\n");
+		display(output, "*    1 - Mode local                                         *\n");
+		display(output, "*        Use the calculator locally                         *\n");
+		display(output, "*    2 - Online mode (use the calculator                    *\n");
+		display(output, "*        Use the calculator from a remote location          *\n");
+		display(output, "*        Launch the program as usual (server side)          *\n");
+		display(output, "*        Connect from a remote location (telnet, netcat...) *\n");
+		display(output, "*        Example : telnet IP PORT                           *\n");
+		display(output, "*    3 - Online mode that logs the current session          *\n");
+		display(output, "*                                                           *\n");
+		display(output, "* To launch the program directly nex time enter the         *\n");
+		display(output, "* Following command : java CalcRPL option1 option2          *\n");
+		display(output, "*                                                           *\n");
+		display(output, "*    option 1:          option 2:                           *\n");
+		display(output, "*    1- Local           1-Session without log               *\n");
+		display(output, "*    2- Remote          2-Session with log                  *\n");
+		display(output, "*                       3-Replay the log                    *\n");
+		display(output, "* If you see this menu it means you did not enter the       *\n");
+		display(output, "* correct number of argument.                               *\n");
+		display(output, "*                                                           *\n");
+		display(output, "* Please enter: option1 option2                             *\n");
+		display(output, "*************************************************************\n");
 		String [] s1 = new String[2];
 		String s = new String();
 		try{
@@ -105,6 +115,7 @@ public class CalcRPL{
 			System.out.println(e.getMessage());
 		}
 		return s1;
+
 	} 
 	void initStream(String [] args){
 		if(args[0].equals("1")){
