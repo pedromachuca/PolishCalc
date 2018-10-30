@@ -16,11 +16,11 @@ public class CalcRPL{
 
 
 	//Initialisation des attributs de la classe
-	BufferedReader input=null;
-	PrintWriter output=null;	
-	FileWriter writer=null;
-
-	ServerSocket server;
+	BufferedReader inputUser=null;
+	PrintWriter outputUser=null;	
+	FileWriter outputLog=null;
+	boolean reclog =false;
+	ServerSocket server=null;
 	Socket socket=null;
 	//Initialisation of an object PileRPL
 	PileRPL pile=null;
@@ -29,7 +29,14 @@ public class CalcRPL{
 
 
 	public CalcRPL(String [] args){
-		//If no args then instanciation of PileRPL with the default size
+		if(args.length==0){
+			args =menu();
+		}
+		initStream(args);
+		mainLoop();
+		closeStream();
+	}
+/*		//If no args then instanciation of PileRPL with the default size
 		if(args.length==0){
 			output = new PrintWriter(System.out);
 	  		input = new BufferedReader(new InputStreamReader(System.in));
@@ -56,59 +63,61 @@ public class CalcRPL{
 			System.out.println("java CalcRPL option1 option2 (option 1 and 2 being ints)");
 			System.exit(1);
 		}
+	}*/
+	void display(PrintWriter outputUser, String message){
+			outputUser.print(message);
+			outputUser.flush();		
 	}
-	void display(PrintWriter output, String message){
-			output.print(message);
-			output.flush();		
+	void display(PrintWriter outputUser, PileRPL pile){
+			outputUser.print(pile);
+			outputUser.flush();		
 	}
-	void display(PrintWriter output, PileRPL pile){
-			output.print(pile);
-			output.flush();		
-	}
-	String [] menu(PrintWriter output, BufferedReader input){
+	String [] menu(){
+		outputUser = new PrintWriter(System.out);
+	  	inputUser = new BufferedReader(new InputStreamReader(System.in));
 		//Starting the calculator and prompt user information on the program.
-		display(output, "*************************************************************\n");
-		display(output, "*                                                           *\n");
-		display(output, "*    ************************************                   *\n");
-		display(output, "*    *                                  *                   *\n");
-		display(output, "*    * Welcome to the polish calculator *                   *\n");
-		display(output, "*    *                                  *                   *\n");
-		display(output, "*    ************************************                   *\n");
-		display(output, "*    How to :                                               *\n");
-		display(output, "*    Enter a value to push on the stack, press ENTER        *\n");
-		display(output, "*    Enter another value to push on the stack, press ENTER  *\n");
-		display(output, "*    Enter the operand you wish to apply, press ENTER       *\n");
-		display(output, "*    The following commands are also available :            *\n");
-		display(output, "*    drop, swap, clear, pop and push number (ex: push 2)    *\n");
-		display(output, "*    You can leave by entering q at anytime                 *\n");
-		display(output, "*                                                           *\n");
-		display(output, "*    Different mode are available :                         *\n");
-		display(output, "*    1 - Mode local                                         *\n");
-		display(output, "*        Use the calculator locally                         *\n");
-		display(output, "*    2 - Online mode (use the calculator                    *\n");
-		display(output, "*        Use the calculator from a remote location          *\n");
-		display(output, "*        Launch the program as usual (server side)          *\n");
-		display(output, "*        Connect from a remote location (telnet, netcat...) *\n");
-		display(output, "*        Example : telnet IP PORT                           *\n");
-		display(output, "*    3 - Online mode that logs the current session          *\n");
-		display(output, "*                                                           *\n");
-		display(output, "* To launch the program directly nex time enter the         *\n");
-		display(output, "* Following command : java CalcRPL option1 option2          *\n");
-		display(output, "*                                                           *\n");
-		display(output, "*    option 1:          option 2:                           *\n");
-		display(output, "*    1- Local           1-Session without log               *\n");
-		display(output, "*    2- Remote          2-Session with log                  *\n");
-		display(output, "*                       3-Replay the log                    *\n");
-		display(output, "* If you see this menu it means you did not enter the       *\n");
-		display(output, "* correct number of argument.                               *\n");
-		display(output, "*                                                           *\n");
-		display(output, "* Please enter: option1 option2                             *\n");
-		display(output, "*************************************************************\n");
+		display(outputUser, "*************************************************************\n");
+		display(outputUser, "*                                                           *\n");
+		display(outputUser, "*    ************************************                   *\n");
+		display(outputUser, "*    *                                  *                   *\n");
+		display(outputUser, "*    * Welcome to the polish calculator *                   *\n");
+		display(outputUser, "*    *                                  *                   *\n");
+		display(outputUser, "*    ************************************                   *\n");
+		display(outputUser, "*    How to :                                               *\n");
+		display(outputUser, "*    Enter a value to push on the stack, press ENTER        *\n");
+		display(outputUser, "*    Enter another value to push on the stack, press ENTER  *\n");
+		display(outputUser, "*    Enter the operand you wish to apply, press ENTER       *\n");
+		display(outputUser, "*    The following commands are also available :            *\n");
+		display(outputUser, "*    drop, swap, clear, pop and push number (ex: push 2)    *\n");
+		display(outputUser, "*    You can leave by entering q at anytime                 *\n");
+		display(outputUser, "*                                                           *\n");
+		display(outputUser, "*    Different mode are available :                         *\n");
+		display(outputUser, "*    1 - Mode local                                         *\n");
+		display(outputUser, "*        Use the calculator locally                         *\n");
+		display(outputUser, "*    2 - Online mode (use the calculator                    *\n");
+		display(outputUser, "*        Use the calculator from a remote location          *\n");
+		display(outputUser, "*        Launch the program as usual (server side)          *\n");
+		display(outputUser, "*        Connect from a remote location (telnet, netcat...) *\n");
+		display(outputUser, "*        Example : telnet IP PORT                           *\n");
+		display(outputUser, "*    3 - Online mode that logs the current session          *\n");
+		display(outputUser, "*                                                           *\n");
+		display(outputUser, "* To launch the program directly nex time enter the         *\n");
+		display(outputUser, "* Following command : java CalcRPL option1 option2          *\n");
+		display(outputUser, "*                                                           *\n");
+		display(outputUser, "*    option 1:          option 2:                           *\n");
+		display(outputUser, "*    1- Local           1-Session without log               *\n");
+		display(outputUser, "*    2- Remote          2-Session with log                  *\n");
+		display(outputUser, "*                       3-Replay the log                    *\n");
+		display(outputUser, "* If you see this menu it means you did not enter the       *\n");
+		display(outputUser, "* correct number of argument.                               *\n");
+		display(outputUser, "*                                                           *\n");
+		display(outputUser, "* Please enter: option1 option2                             *\n");
+		display(outputUser, "*************************************************************\n");
 		String [] s1 = new String[2];
 		String s = new String();
 		try{
 			do{
-				s=(String)input.readLine();
+				s=(String)inputUser.readLine();
 				s1=s.trim().split(" ");
 			}while(!(s1[0].equals("1")||s1[0].equals("2"))&&!(s1[1].equals("1")||!s1[1].equals("2")||s1[1].equals("3")));
 		}catch(IOException e){
@@ -118,6 +127,48 @@ public class CalcRPL{
 
 	} 
 	void initStream(String [] args){
+		if(args[0].equals("1")){
+	  		inputUser = new BufferedReader(new InputStreamReader(System.in));
+			outputUser = new PrintWriter(System.out);
+		}
+		else if(args[0].equals("2")){
+			try{
+				server = new ServerSocket(12345, 1);
+				socket = server.accept();
+	  			inputUser = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+				outputUser = new PrintWriter(socket.getOutputStream());
+			}catch(IOException e){
+				System.out.println( "problème de connexion" );
+				System.exit(1);
+			}
+			display(outputUser, "Starting remote session");
+		}
+		if(args[1].equals("2")){
+			reclog=true;
+			try{
+				outputLog = new FileWriter("session.txt", false);
+			}catch(IOException e){display(outputUser,e.getMessage());}
+		}
+		else if(args[1].equals("3")){
+			try{
+				inputUser= new BufferedReader(new FileReader("session.txt"));
+			}catch(IOException e){display(outputUser,e.getMessage());}
+		}
+	}
+	void closeStream(){
+		try{
+			inputUser.close();
+			outputUser.close();
+			if(socket!=null){
+				socket.close();
+				server.close();
+			}
+			if(reclog){
+				outputLog.close();
+			}
+		}catch(IOException e){display(outputUser,e.getMessage());}
+	}
+	/*void initStream(String [] args){
 		if(args[0].equals("1")){
 			switch(args[1]){
 				case "1":
@@ -195,14 +246,14 @@ public class CalcRPL{
 					break;
 			}
 		}
-	}
+	}*/
 	void writeFile(String s){
-		if(writer !=null){		
+		if(reclog){		
 			try{
-				writer.write(s);
-				writer.write("\r\n");
-				writer.flush();
-			}catch(IOException e){display(output,e.getMessage());}
+				outputLog.write(s);
+				outputLog.write("\r\n");
+				outputLog.flush();
+			}catch(IOException e){display(outputUser,e.getMessage());}
 		}
 	}
 	void mainLoop(){
@@ -210,12 +261,12 @@ public class CalcRPL{
 		String s ="" ;
 		int value =0;
 		String[] splitStri=new String[2];
-		display(output,pile);
+		display(outputUser,pile);
 		do{
 			try{
-				display(output,">>");
-				s = (String)input.readLine();
-			}catch(IOException e){display(output, e.getMessage());}
+				display(outputUser,">>");
+				s = (String)inputUser.readLine();
+			}catch(IOException e){display(outputUser, e.getMessage());}
 			try{
 				splitStri=s.trim().split("\\s+");
 				if(splitStri.length>1){
@@ -236,8 +287,8 @@ public class CalcRPL{
 				//the stack object is use to insert
 				//the 1st object on the stack
 				pile.push(oe1);
-				display(output, "State of the stack :");
-				display(output,pile);
+				display(outputUser, "State of the stack :");
+				display(outputUser,pile);
 				//TO DO FONCTION QUI PRENDS SORTIE (ex output) et message et
 				//fait un display et un flush
 			}
@@ -247,19 +298,19 @@ public class CalcRPL{
 						//Then the operations method can be called
 						//to apply operation to the objects of the stack
 						pile.add();
-						display(output,pile);
+						display(outputUser,pile);
 						break;
 					case "-":
 						pile.sou();
-						display(output,pile);
+						display(outputUser,pile);
 						break;
 					case "x":
 						pile.mul();
-						display(output,pile);
+						display(outputUser,pile);
 						break;
 					case "/":
 						pile.div();
-						display(output,pile);
+						display(outputUser,pile);
 						break;
 					default:
 						break;
@@ -267,43 +318,36 @@ public class CalcRPL{
 			}
 			else if(s.matches("clear")){
 				pile.clear();
-				display(output,"\nState of the stack :\n");
-				display(output,pile);
+				display(outputUser,"\nState of the stack :\n");
+				display(outputUser,pile);
 			}
 			else if(s.matches("drop")){
 				pile.drop();					
-				display(output,"\nState of the stack :\n");
-				display(output,pile);
+				display(outputUser,"\nState of the stack :\n");
+				display(outputUser,pile);
 			}
 			else if(s.matches("swap")){
 				pile.swap();					
-				display(output,"\nState of the stack :\n");
-				display(output,pile);
+				display(outputUser,"\nState of the stack :\n");
+				display(outputUser,pile);
 			}
 			else if(s.matches("pop")){
 				ObjEmp poper =pile.pop();
-				display(output, "The object poped : "+poper);
-				display(output,pile);
+				display(outputUser, "The object poped : "+poper);
+				display(outputUser,pile);
 			}
 			else if(splitStri[0].matches("push")&&splitStri[1].matches("[0-9]+")){
 				ObjEmp oe1 = new ObjEmp(value);
 				pile.push(oe1);
-				display(output,"\nState of the stack :\n");
-				display(output,pile);
-					
+				display(outputUser,"\nState of the stack :\n");
+				display(outputUser,pile);
 			}
 			else{
 				if(s.equals("q")){
-					try{
-						display(output,"Bye Bye !!\n");
-						if(writer!=null){
-							writer.close();
-						}
-						System.exit(1);
-					}catch(IOException e ){display(output,e.getMessage());}
+					display(outputUser,"Bye Bye !!\n");
 				}
 				else{
-					display(output,"Invalid input please try again\n");
+					display(outputUser,"Invalid input please try again\n");
 					continue;
 				}
 			}
