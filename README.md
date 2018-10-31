@@ -38,7 +38,11 @@ You can leave by entering **q** at anytime
 To launch the program directly next time enter the       
 Following command : ```java CalcRPL option1 option2```
                                                         
-   option 1:          option 2:                           
-   1- Local           1-Session without log             
-   2- Remote          2-Session with log              
-                      3-Replay the log              
+   option 1:                                   
+   1- Local                       
+   2- Remote
+   
+   option 2: 
+   1-Session without log
+   2-Session with log              
+   3-Replay the log              
