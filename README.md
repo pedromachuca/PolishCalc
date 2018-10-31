@@ -12,12 +12,12 @@ Then to launch the program enter and get the menu :
 
 ```java CalcRPL```
 
-## Different mode are available :                        
+## Differents modes are available :                        
    
    **1- Mode local**                                         
         Use the calculator locally
         
-   **2 - Online mode**
+   **2 - Online Mode**
         Use the calculator from a remote location          
         Launch the program as usual (server side)         
         Connect from a remote location (telnet, netcat...) 
@@ -42,7 +42,7 @@ Following command : ```java CalcRPL option1 option2```
    1- Local                       
    2- Remote
    
-   option 2: 
+   option 2:
    1-Session without log
    2-Session with log              
    3-Replay the log              
