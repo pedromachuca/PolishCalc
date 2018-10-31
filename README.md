@@ -12,7 +12,7 @@ Then to launch the program enter and get the menu :
 
 ```java CalcRPL```
 
-##Different mode are available :                        
+## Different mode are available :                        
    
    **1- Mode local**                                         
         Use the calculator locally
@@ -25,7 +25,7 @@ Then to launch the program enter and get the menu :
    
    **3 - Online mode that logs the current session**         
 
-##To use the calculator :
+## To use the calculator :
 
 Enter a value to push on the stack, press ENTER      
 Enter another value to push on the stack, press ENTER  
