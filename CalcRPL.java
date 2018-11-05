@@ -94,7 +94,7 @@ public class CalcRPL{
 		display(outputUser, "*    Different mode are available :                         *\n");
 		display(outputUser, "*    1 - Mode local                                         *\n");
 		display(outputUser, "*        Use the calculator locally                         *\n");
-		display(outputUser, "*    2 - Online mode (use the calculator                    *\n");
+		display(outputUser, "*    2 - Online mode                                        *\n");
 		display(outputUser, "*        Use the calculator from a remote location          *\n");
 		display(outputUser, "*        Launch the program as usual (server side)          *\n");
 		display(outputUser, "*        Connect from a remote location (telnet, netcat...) *\n");
